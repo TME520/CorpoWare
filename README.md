@@ -12,9 +12,9 @@ CorpoWare exists so you can capture those **impromptu** items in seconds, move t
 
 Design goals:
 
-- **Single EXE** for Windows 11 — no installer maze, no service farm, easy to carry or drop on a workstation.
+- **Portable single EXE** for Windows 11 — no installer, no admin rights, runnable from a USB stick or any user-writable folder.
 - **Innocuous by default** — behave like a normal user-mode productivity tool (no hooks, no drivers, no stealth). The aim is to avoid false positives from antivirus, not to evade security policy.
-- **Local-first** — your backlog and notes stay on your machine unless you explicitly add sync later.
+- **Local-first & side-by-side data** — backlog and notes live next to the app (USB-friendly); no cloud unless you add it later.
 - **Fast capture** — getting an impromptu ask out of your head and into BACKLOG should take seconds.
 
 ## Core features
@@ -56,13 +56,15 @@ Reusable checklists you can run when a process repeats (start of day, release pr
 
 ## Platform
 
-| Item        | Target                          |
-|-------------|---------------------------------|
-| OS          | Windows 11                      |
-| Distribution| Self-contained `.exe`           |
-| Privileges  | Standard user (no admin required for normal use) |
+| Item         | Target |
+|--------------|--------|
+| OS           | Windows 11 |
+| Distribution | Portable — run from a folder or USB stick, **no installer** |
+| Privileges   | Standard user only (**no admin**) |
+| Data         | Stored next to the app (e.g. a `data/` folder), not in Program Files or machine-wide registry |
+| Packaging    | Self-contained single-file (or small folder) `.exe`; intended stack: **.NET 8 + WPF** (trimmed publish) |
 
-Stack and packaging details will land here once chosen (e.g. .NET / Tauri / similar), as long as the result remains a single portable EXE with a clean AV profile.
+The app must be usable when the working copy lives on removable media: no dependency on a prior install, no write to protected system locations, and settings/DB follow the executable.
 
 ## Status
 
