@@ -66,9 +66,71 @@ Reusable checklists you can run when a process repeats (start of day, release pr
 
 The app must be usable when the working copy lives on removable media: no dependency on a prior install, no write to protected system locations, and settings/DB follow the executable.
 
+## Build, run, and publish
+
+### Prerequisites
+
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
+- Windows 11 to run the WPF UI
+
+`EnableWindowsTargeting` is set, so `dotnet build` also works on Linux and macOS. Running the window still requires Windows.
+
+### Build
+
+From the repository root:
+
+```bash
+dotnet build
+```
+
+### Run from source (Windows)
+
+```bash
+dotnet run --project src/CorpoWare/CorpoWare.csproj
+```
+
+The first launch creates `data/state.json` next to that build's `CorpoWare.exe` (under `src/CorpoWare/bin/`). Sample inbox, board, and routine rows are written only when the file is missing. The app manifest requests `asInvoker`, so it stays a standard-user process.
+
+### Publish a portable executable
+
+From the repository root:
+
+```bash
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:PublishTrimmed=true
+```
+
+The project file bundles native libraries into the executable and compresses the single-file package, so that command is the full publish. It also opts in to partial trimming (`TrimMode=partial`). The .NET SDK otherwise blocks `PublishTrimmed` for WPF. Partial trimming removes unused assemblies; member-level trimming is left off so the WPF shell can still load. Output:
+
+```text
+src/CorpoWare/bin/Release/net8.0-windows/win-x64/publish/CorpoWare.exe
+```
+
+Copy `CorpoWare.exe` to a folder or a USB stick and start it there. Nothing is installed, and the process does not request administrator rights. On first launch a `data` folder appears beside the executable and holds `state.json`. Remove that folder to load the sample seed again.
+
+The data directory follows the real executable path, including when the app is published as a single file (the single-file host extracts assemblies to a temp folder; app data is not stored there).
+
+### Repository layout
+
+```text
+CorpoWare.sln
+src/CorpoWare.Core/     models and the JSON store (data/state.json beside the exe)
+src/CorpoWare/          WPF shell
+tests/CorpoWare.Tests/  store and portable-path checks (no UI)
+```
+
+### Tests
+
+From the repository root:
+
+```bash
+dotnet test
+```
+
+The tests cover the JSON file beside a chosen path and the rule that data follows the executable rather than the single-file extraction folder. They do not open the WPF window.
+
 ## Status
 
-Early scaffolding. Vision and product shape are defined; implementation is starting.
+The portable shell is in place. Impromptu, Kanban, and Routines open from the sidebar and read `data/state.json` beside the executable. Lists are seeded with sample rows. Checking a routine step saves that file. Adding items, editing text, and moving Kanban cards are not built yet.
 
 ## Contributing
 

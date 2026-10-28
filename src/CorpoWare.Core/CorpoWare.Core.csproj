@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>CorpoWare</RootNamespace>
+    <AssemblyName>CorpoWare.Core</AssemblyName>
+    <Description>Local models and the portable JSON store for CorpoWare.</Description>
+    <!-- Published only through the WPF app, which bundles this assembly. -->
+    <IsPublishable>false</IsPublishable>
+    <!-- Reflection-based JSON is unused; the source-generated context is the only serializer. -->
+    <JsonSerializerIsReflectionEnabledByDefault>false</JsonSerializerIsReflectionEnabledByDefault>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+</Project>

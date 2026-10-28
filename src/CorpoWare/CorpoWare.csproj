@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <!-- Lets non-Windows CI machines compile the Windows desktop project. The UI still runs only on Windows. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <RootNamespace>CorpoWare</RootNamespace>
+    <AssemblyName>CorpoWare</AssemblyName>
+    <Version>0.1.0</Version>
+    <Product>CorpoWare</Product>
+    <Description>Portable Windows desktop app for impromptu work, a simple Kanban, and routines.</Description>
+    <Copyright>Copyright (C) CorpoWare contributors</Copyright>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CorpoWare.Core\CorpoWare.Core.csproj" />
+  </ItemGroup>
+
+  <!-- The documented publish command passes PublishSingleFile and PublishTrimmed.
+       The SDK rejects trimmed WPF unless _SuppressWpfTrimError is set. Partial mode
+       drops unused assemblies and leaves WPF's reflection in place. -->
+  <PropertyGroup>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <TrimMode>partial</TrimMode>
+    <_SuppressWpfTrimError>true</_SuppressWpfTrimError>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+</Project>

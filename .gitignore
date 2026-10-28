@@ -1,0 +1,11 @@
+bin/
+obj/
+# Created beside an executable launched from the repository root.
+/data/
+.vs/
+*.user
+*.suo
+TestResults/
+publish/
+.idea/
+*.DotSettings.user
